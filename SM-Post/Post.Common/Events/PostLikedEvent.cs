@@ -1,10 +1,11 @@
+using CQRS.Core.Events;
+
 namespace Post.Common.Events;
 
-public class MessageUpdatedEvent : BaseEvent
+public class PostLikedEvent : BaseEvent
 {
-    public MessageUpdatedEvent() : base(nameof(MessageUpdatedEvent)) { }
+    public PostLikedEvent() : base(nameof(PostLikedEvent)) { }
 
     public Guid UserId { get; set; }
-    public string Message { get; set; }
     public DateTime DatePosted { get; set; }
 }

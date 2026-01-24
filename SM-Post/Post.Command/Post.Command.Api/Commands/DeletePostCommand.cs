@@ -4,5 +4,5 @@ namespace Post.Command.Api.Commands;
 
 public class DeletePostCommand : BaseCommand
 {
-    public Guid UserId { get; set; }
+    public Guid AuthorId { get; set; }
 }

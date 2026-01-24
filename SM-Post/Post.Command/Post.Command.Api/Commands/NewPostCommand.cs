@@ -4,6 +4,6 @@ namespace Post.Command.Api.Commands;
 
 public class NewPostCommand : BaseCommand
 {
-    public Guid UserId { get; set; }
+    public Guid AuthorId { get; set; }
     public string Message { get; set; } = string.Empty;
 }
