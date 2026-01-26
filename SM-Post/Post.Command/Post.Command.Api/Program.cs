@@ -1,5 +1,10 @@
 using CQRS.Core.Domain;
+using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
+using Post.Command.Api.Commands;
+using Post.Command.Domain.Aggregates;
+using Post.Command.Infrastructure.Dispatchers;
+using Post.Command.Infrastructure.Handlers;
 using Post.Command.Infrastructure.Repositories;
 using Post.Command.Infrastructure.Stores;
 
@@ -16,6 +21,22 @@ builder.Services.Configure<MongoDBConfig>(builder.Configuration.GetSection(nameo
 builder.Services.AddScoped<IMongoDBConfiguration, MongoDBConfiguration>();
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRespository>();
 builder.Services.AddScoped<IEventStore, EventStore>();
+builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
+builder.Services.AddScoped<ICommandHandler, CommandHandler>();
+
+//register command handler methods
+var CommandHandler = builder.Services.BuildServiceProvider().GetRequiredService<ICommandHandler>();
+var dispatcher = new CommandDispatcher();
+
+dispatcher.RegisterHandler<NewPostCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<EditMessageCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<LikePostCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<AddCommentCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<EditCommentCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<RemoveCommentCommand>(CommandHandler.HandleAsync);
+dispatcher.RegisterHandler<DeletePostCommand>(CommandHandler.HandleAsync);
+
+builder.Services.AddSingleton<ICommandDispatcher>(_ => dispatcher);
 
 var app = builder.Build();
 
