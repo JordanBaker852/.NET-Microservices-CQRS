@@ -1,9 +1,21 @@
+using CQRS.Core.Domain;
+using CQRS.Core.Infrastructure;
+using Post.Command.Infrastructure.Repositories;
+using Post.Command.Infrastructure.Stores;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddUserSecrets<Program>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<MongoDBConfig>(builder.Configuration.GetSection(nameof(MongoDBConfig)));
+builder.Services.AddScoped<IMongoDBConfiguration, MongoDBConfiguration>();
+builder.Services.AddScoped<IEventStoreRepository, EventStoreRespository>();
+builder.Services.AddScoped<IEventStore, EventStore>();
 
 var app = builder.Build();
 
