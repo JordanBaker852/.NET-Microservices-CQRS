@@ -13,7 +13,8 @@ public class CommentEntity
     public Guid AuthorId { get; set; }
     public string Comment { get; set; }
     public DateTime DateCommented { get; set; }
-    public bool Edited { get; set; }
+    public DateTime? EditedDate { get; set; }
+    public bool Edited => EditedDate != null;
     [JsonIgnore]
     public virtual PostEntity Post { get; set; }
 }
