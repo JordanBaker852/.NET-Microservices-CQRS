@@ -19,7 +19,7 @@ public class EventProducer : IEventProducer
         _client = PulsarClient.Builder()
             .ServiceUrl(new Uri(_apachePulsarConfiguration.GetServiceUrl()))
             .ListenerName(_apachePulsarConfiguration.GetListenerName())
-            .ConnectionSecurity(EncryptionPolicy.EnforceEncrypted)
+            .ConnectionSecurity(EncryptionPolicy.PreferEncrypted)
             .Build();
     }
 

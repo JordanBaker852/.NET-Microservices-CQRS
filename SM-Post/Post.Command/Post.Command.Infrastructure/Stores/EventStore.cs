@@ -1,12 +1,14 @@
+using System.Transactions;
 using CQRS.Core.Domain;
 using CQRS.Core.Events;
 using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Command.Domain.Aggregates;
 
 namespace Post.Command.Infrastructure.Stores;
 
-public class EventStore(IEventStoreRepository eventStoreRepository) : IEventStore
+public class EventStore(IEventStoreRepository eventStoreRepository, IEventProducer eventProducer) : IEventStore
 {
     public async Task SaveEventAsync(Guid aggregateId, IEnumerable<BaseEvent> events, int expectedVersion)
     {
@@ -35,7 +37,14 @@ public class EventStore(IEventStoreRepository eventStoreRepository) : IEventStor
                 EventData = @event
             };
 
+            using var transaction = new TransactionScope();
+
             await eventStoreRepository.SaveAsync(@expectedModel);
+
+            var topic = Environment.GetEnvironmentVariable("PULSAR_TOPIC") ?? "DefaultEvents";
+            await eventProducer.ProduceAsync(topic, @event);
+
+            transaction.Complete();
         }
     }
 

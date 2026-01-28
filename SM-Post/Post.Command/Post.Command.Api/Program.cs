@@ -1,6 +1,7 @@
 using CQRS.Core.Domain;
 using CQRS.Core.Handlers;
 using CQRS.Core.Infrastructure;
+using CQRS.Core.Producers;
 using Post.Command.Api.Commands;
 using Post.Command.Domain.Aggregates;
 using Post.Command.Infrastructure.Config;
@@ -26,6 +27,7 @@ builder.Services.AddScoped<IMongoDBConfiguration, MongoDBConfiguration>();
 builder.Services.AddScoped<IApachePulsarConfiguration, ApachePulsarConfiguration>();
 
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRespository>();
+builder.Services.AddScoped<IEventProducer, EventProducer>();
 builder.Services.AddScoped<IEventStore, EventStore>();
 builder.Services.AddScoped<IEventSourcingHandler<PostAggregate>, EventSourcingHandler>();
 builder.Services.AddScoped<ICommandHandler, CommandHandler>();
