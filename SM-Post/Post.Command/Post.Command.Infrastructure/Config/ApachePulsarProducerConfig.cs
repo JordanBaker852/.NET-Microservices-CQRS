@@ -1,7 +1,6 @@
 namespace Post.Command.Infrastructure.Config;
 
-public class ApachePulsarConfig
+public class ApachePulsarProducerConfig
 {
     public string ServiceUrl { get; set; }
-    public string ListenerName { get; set; }
 }

@@ -9,16 +9,15 @@ namespace Post.Command.Infrastructure.Producers;
 
 public class EventProducer : IEventProducer
 {
-    private readonly IApachePulsarConfiguration _apachePulsarConfiguration;
+    private readonly IApachePulsarProducerConfiguration _configuration;
     private readonly IPulsarClient _client;
 
-    public EventProducer(IApachePulsarConfiguration apachePulsarConfiguration)
+    public EventProducer(IApachePulsarProducerConfiguration configuration)
     {
-        _apachePulsarConfiguration = apachePulsarConfiguration;
+        _configuration = configuration;
         
         _client = PulsarClient.Builder()
-            .ServiceUrl(new Uri(_apachePulsarConfiguration.GetServiceUrl()))
-            .ListenerName(_apachePulsarConfiguration.GetListenerName())
+            .ServiceUrl(new Uri(_configuration.GetServiceUrl()))
             .ConnectionSecurity(EncryptionPolicy.PreferEncrypted)
             .Build();
     }

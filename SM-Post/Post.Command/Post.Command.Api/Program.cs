@@ -21,10 +21,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<MongoDBConfig>(builder.Configuration.GetSection(nameof(MongoDBConfig)));
-builder.Services.Configure<ApachePulsarConfig>(builder.Configuration.GetSection(nameof(ApachePulsarConfig)));
+builder.Services.Configure<ApachePulsarProducerConfig>(builder.Configuration.GetSection(nameof(ApachePulsarProducerConfig)));
 
 builder.Services.AddScoped<IMongoDBConfiguration, MongoDBConfiguration>();
-builder.Services.AddScoped<IApachePulsarConfiguration, ApachePulsarConfiguration>();
+builder.Services.AddScoped<IApachePulsarProducerConfiguration, ApachePulsarProducerConfiguration>();
 
 builder.Services.AddScoped<IEventStoreRepository, EventStoreRespository>();
 builder.Services.AddScoped<IEventProducer, EventProducer>();

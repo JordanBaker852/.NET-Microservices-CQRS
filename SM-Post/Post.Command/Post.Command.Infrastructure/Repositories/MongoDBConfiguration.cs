@@ -11,7 +11,7 @@ public class MongoDBConfiguration(IOptions<MongoDBConfig> options) : IMongoDBCon
 
 public interface IMongoDBConfiguration
 {
-    public string GetConnectionString();
-    public string GetDatabase();
-    public string GetCollection();
+    string GetConnectionString();
+    string GetDatabase();
+    string GetCollection();
 }
