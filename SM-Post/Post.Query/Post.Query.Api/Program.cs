@@ -1,3 +1,4 @@
+using CQRS.Core.Consumers;
 using Microsoft.EntityFrameworkCore;
 using Post.Query.Domain.Repositories;
 using Post.Query.Infrastructure.Config;
@@ -29,6 +30,9 @@ builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IEventHandler, Post.Query.Infrastructure.Handlers.EventHandler>();
 builder.Services.AddScoped<IApachePulsarConsumerConfiguration, ApachePulsarConsumerConfiguration>();
+builder.Services.AddScoped<IEventConsumer, EventConsumer>();
+
+builder.Services.AddHostedService<ConsumerHostedService>();
 
 var app = builder.Build();
 
